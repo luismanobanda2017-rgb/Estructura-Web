@@ -38,18 +38,35 @@ En VS Code: clic en el ícono de bloques (lado izquierdo) → buscar e instalar:
 
 1. Ve a: https://supabase.com/dashboard/project/uizabeaqthcsxuimclji/settings/api
 2. Copia la **anon public key** (empieza con `eyJ...`)
-3. En VS Code abre estos 2 archivos y reemplaza `PEGAR_ANON_KEY_AQUI`:
-   - `src/Presentation/index.html`
-   - `src/Presentation/registro.html`
+3. En VS Code abre `src/Persistence/supabaseClient.js`
+4. Reemplaza `PEGAR_ANON_KEY_AQUI` por tu clave.
 
 ---
 
 ## PASO 5 — Abrir con Live Server
 
-1. Clic derecho sobre `src/Presentation/index.html`
+1. Clic derecho sobre `src/Web_Visual/index.html`
 2. Seleccionar **"Open with Live Server"**
 3. Se abre el navegador en `http://127.0.0.1:5500`
 4. Cada cambio que guardes (Ctrl+S) se actualiza automáticamente
+
+### Abrir desde otro celular o laptop en la misma red
+
+1. Asegúrate de que ambos dispositivos estén conectados al mismo Wi-Fi.
+2. En la laptop, abre el proyecto con Live Server.
+3. En el otro dispositivo entra a:
+
+```txt
+http://IP_DE_TU_LAPTOP:5500/src/Web_Visual/index.html
+```
+
+Ejemplo si tu laptop tiene la IP `172.168.0.78`:
+
+```txt
+http://172.168.0.78:5500/src/Web_Visual/index.html
+```
+
+Si no carga, permite el acceso de VS Code o Live Server en el Firewall de Windows.
 
 ---
 
