@@ -8,24 +8,66 @@
 </head>
 <body>
 
-<form action="ValidarLogin" method="POST">
+<form id="formLogin">
     <h2>SmartCampus<span>UTA</span></h2>
     <p class="subtitle">Gestión Académica Universitaria</p>
 
-    <input type="email" name="email" placeholder="Correo Institucional" required>
+    <input type="email" id="email" placeholder="Correo Institucional" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
 
-    <input type="password" name="password" placeholder="Contraseña" required>
+    <button type="submit" class="btn" id="btnLogin">Ingresar</button>
 
-    <button type="submit" class="btn">Ingresar</button>
+    <p id="mensajeError" style="color:#D32F2F; font-size:14px; margin-top:10px; display:none;"></p>
 
-    <p class="footer-text">¿Nuevo en el SmartCSampus? <a href="registro.html">Crea una cuenta</a></p>
+    <p class="footer-text">¿Nuevo en SmartCampus? <a href="registro.html">Crea una cuenta</a></p>
 </form>
 
-<script>
-    // Este script detecta si el Servlet ValidarLogin nos mandó de vuelta por error
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === '1') {
-        alert("Acceso denegado: El correo o la contraseña no coinciden con nuestros registros.");
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // ─── CONFIGURACIÓN SUPABASE ───────────────────────────────
+    const SUPABASE_URL      = 'https://uizabeaqthcsxuimclji.supabase.co';
+    const SUPABASE_ANON_KEY = 'PEGAR_ANON_KEY_AQUI'; // ← Pega aquí tu anon key
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ─────────────────────────────────────────────────────────
+
+    const form     = document.getElementById('formLogin');
+    const btnLogin = document.getElementById('btnLogin');
+    const msgError = document.getElementById('mensajeError');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btnLogin.textContent = 'Ingresando...';
+        btnLogin.disabled = true;
+        msgError.style.display = 'none';
+
+        const email    = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const hash     = btoa(password + '_uta_salt');
+
+        const { data, error } = await supabase
+            .from('usuarios')
+            .select('*')
+            .eq('email', email)
+            .eq('password_hash', hash)
+            .single();
+
+        if (error || !data) {
+            msgError.textContent = 'Correo o contraseña incorrectos.';
+            msgError.style.display = 'block';
+            btnLogin.textContent = 'Ingresar';
+            btnLogin.disabled = false;
+            return;
+        }
+
+        // Guardar sesión y redirigir
+        localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
+        window.location.href = 'dashboard.html';
+    });
+
+    // Si ya hay sesión activa, ir directo al dashboard
+    if (localStorage.getItem('smartcampus_usuario')) {
+        window.location.href = 'dashboard.html';
     }
 </script>
 

@@ -3,23 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro SmartCampus</title>
+    <title>Registro SmartCampus - UTA</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<form action="RegistrarUsuario" method="POST">
+<form id="formRegistro">
     <h2>Registro de Usuario <span>(UTA)</span></h2>
-    <p class="subtitle">Conectando a base de datos grupal...</p>
+    <p class="subtitle">Crea tu cuenta institucional</p>
 
-    <input type="text" name="nombre" placeholder="Nombre completo" required>
-    <input type="email" name="email" placeholder="Correo institucional" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
+    <input type="text"     id="nombre"   placeholder="Nombre completo"      required>
+    <input type="email"    id="email"    placeholder="Correo institucional"  required>
+    <input type="password" id="password" placeholder="Contraseña"            required>
 
-    <button type="submit" class="btn">Registrar en BD</button>
+    <button type="submit" class="btn" id="btnRegistrar">Registrar en BD</button>
+
+    <p id="mensajeEstado" style="font-size:14px; margin-top:10px; display:none;"></p>
 
     <p class="footer-text">¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
 </form>
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // ─── CONFIGURACIÓN SUPABASE ───────────────────────────────
+    const SUPABASE_URL      = 'https://uizabeaqthcsxuimclji.supabase.co';
+    const SUPABASE_ANON_KEY = 'PEGAR_ANON_KEY_AQUI'; // ← Pega aquí tu anon key
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ─────────────────────────────────────────────────────────
+
+    const form  = document.getElementById('formRegistro');
+    const btn   = document.getElementById('btnRegistrar');
+    const msg   = document.getElementById('mensajeEstado');
+
+    function mostrarMensaje(texto, esError) {
+        msg.textContent = texto;
+        msg.style.color = esError ? '#D32F2F' : '#2E7D32';
+        msg.style.display = 'block';
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.textContent = 'Registrando...';
+        btn.disabled = true;
+
+        const nombre   = document.getElementById('nombre').value.trim();
+        const email    = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        // Validar que sea correo institucional UTA
+        if (!email.endsWith('@uta.edu.ec')) {
+            mostrarMensaje('Usa tu correo institucional (@uta.edu.ec)', true);
+            btn.textContent = 'Registrar en BD';
+            btn.disabled = false;
+            return;
+        }
+
+        const passwordHash = btoa(password + '_uta_salt');
+
+        // Verificar si el email ya existe
+        const { data: existe } = await supabase
+            .from('usuarios')
+            .select('id')
+            .eq('email', email)
+            .single();
+
+        if (existe) {
+            mostrarMensaje('Ese correo ya está registrado.', true);
+            btn.textContent = 'Registrar en BD';
+            btn.disabled = false;
+            return;
+        }
+
+        // Insertar nuevo usuario
+        const { data, error } = await supabase
+            .from('usuarios')
+            .insert([{ nombre, email, password_hash: passwordHash, rol: 'estudiante' }])
+            .select()
+            .single();
+
+        if (error) {
+            mostrarMensaje('Error al registrar: ' + error.message, true);
+            btn.textContent = 'Registrar en BD';
+            btn.disabled = false;
+            return;
+        }
+
+        mostrarMensaje('¡Cuenta creada! Redirigiendo...', false);
+        localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
+
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
+    });
+</script>
 
 </body>
 </html>
