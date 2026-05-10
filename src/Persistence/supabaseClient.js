@@ -14,7 +14,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Para frontend puro (sin Node.js), pega tus credenciales aquí SOLO EN LOCAL:
 const SUPABASE_URL     = 'https://uizabeaqthcsxuimclji.supabase.co';
-const SUPABASE_ANON_KEY = 'PEGAR_ANON_KEY_AQUI'; // Obtener de: Supabase → Settings → API → anon public
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpemFiZWFxdGhjc3h1aW1jbGppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzE4MjUsImV4cCI6MjA5NDAwNzgyNX0.H4vQ555fMICjG3c7qwY8n6dc_hYKcDZcaOMS-a4H9H4'; // Obtener de: Supabase → Settings → API → anon public
 
 // ⚠️ La anon key es SEGURA para el frontend porque Supabase usa RLS (Row Level Security)
 // ❌ NUNCA pongas aquí la "service_role key" — esa sí es privada

@@ -5,12 +5,12 @@
 
 -- ─────────────────────────────────────────
 -- Usuarios de prueba
--- Nota: password es "123456" hasheado (en producción usar bcrypt real)
+-- Nota: password es "123456" hasheado igual que en el frontend: btoa(password + '_uta_salt')
 -- ─────────────────────────────────────────
 INSERT INTO usuarios (nombre, email, password_hash, rol) VALUES
-    ('Juan Pérez',       'juan.perez@uta.edu.ec',    'hash_123456', 'estudiante'),
-    ('María García',     'maria.garcia@uta.edu.ec',  'hash_123456', 'estudiante'),
-    ('Admin UTA',        'admin@uta.edu.ec',          'hash_admin',  'admin')
+    ('Juan Pérez',       'juan.perez@uta.edu.ec',    'MTIzNDU2X3V0YV9zYWx0', 'estudiante'),
+    ('María García',     'maria.garcia@uta.edu.ec',  'MTIzNDU2X3V0YV9zYWx0', 'estudiante'),
+    ('Admin UTA',        'admin@uta.edu.ec',          'MTIzNDU2X3V0YV9zYWx0', 'admin')
 ON CONFLICT (email) DO NOTHING;
 
 -- ─────────────────────────────────────────

@@ -23,13 +23,7 @@
 </form>
 
 <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-    // ─── CONFIGURACIÓN SUPABASE ───────────────────────────────
-    const SUPABASE_URL      = 'https://uizabeaqthcsxuimclji.supabase.co';
-    const SUPABASE_ANON_KEY = 'PEGAR_ANON_KEY_AQUI'; // ← Pega aquí tu anon key
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    // ─────────────────────────────────────────────────────────
+    import { supabase } from '../Persistence/supabaseClient.js';
 
     const form     = document.getElementById('formLogin');
     const btnLogin = document.getElementById('btnLogin');
