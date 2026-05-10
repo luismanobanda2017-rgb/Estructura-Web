@@ -1,0 +1,24 @@
+# ============================================================
+# SmartCampus UTA — .gitignore
+# ============================================================
+
+# ── CREDENCIALES (NUNCA subir esto a GitHub) ────────────────
+.env
+*.key
+secrets.js
+
+# ── Sistema Operativo ───────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDEs ────────────────────────────────────────────────────
+.idea/
+*.iml
+.vscode/settings.json
+*.swp
+
+# ── Node (si se agrega en el futuro) ────────────────────────
+node_modules/
+dist/
+*.log
