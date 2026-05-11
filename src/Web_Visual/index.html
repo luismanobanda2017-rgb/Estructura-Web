@@ -10,16 +10,16 @@
 
 <form id="formLogin">
     <h2>SmartCampus<span>UTA</span></h2>
-    <p class="subtitle">Gestión Académica Universitaria</p>
+    <p class="subtitle">Gesti&oacute;n Acad&eacute;mica Universitaria</p>
 
-    <input type="email" id="email" placeholder="Correo Institucional" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
+    <input type="email" id="email" placeholder="Correo institucional" required>
+    <input type="password" id="password" placeholder="Contrase&ntilde;a" required>
 
     <button type="submit" class="btn" id="btnLogin">Ingresar</button>
 
-    <p id="mensajeError" style="color:#D32F2F; font-size:14px; margin-top:10px; display:none;"></p>
+    <p id="mensajeError" class="message message-error" hidden></p>
 
-    <p class="footer-text">¿Nuevo en SmartCampus? <a href="registro.html">Crea una cuenta</a></p>
+    <p class="footer-text">&iquest;Nuevo en SmartCampus? <a href="registro.html">Crea una cuenta</a></p>
 </form>
 
 <script type="module">
@@ -33,11 +33,11 @@
         window.location.href = 'dashboard.html';
     }
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
         btnLogin.textContent = 'Ingresando...';
         btnLogin.disabled = true;
-        msgError.style.display = 'none';
+        msgError.hidden = true;
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -47,7 +47,7 @@
             window.location.href = 'dashboard.html';
         } catch (error) {
             msgError.textContent = error.message;
-            msgError.style.display = 'block';
+            msgError.hidden = false;
             btnLogin.textContent = 'Ingresar';
             btnLogin.disabled = false;
         }

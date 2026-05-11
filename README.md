@@ -1,6 +1,7 @@
 # SmartCampus UTA - Proyecto Integrador
 
-Sistema web de gestion universitaria para la Universidad Tecnica de Ambato, implementado con JavaScript Vanilla, Supabase y estructuras de datos.
+Sistema web de gestion universitaria para la materia Estructura de Datos.
+Usa JavaScript Vanilla, HTML, CSS, Supabase y una arquitectura por capas.
 
 ## Sitio publico
 
@@ -10,38 +11,38 @@ GitHub Pages:
 https://luismanobanda2017-rgb.github.io/Estructura-Web/
 ```
 
-El archivo `index.html` de la raiz redirige automaticamente a:
+El archivo `index.html` de la raiz redirige a:
 
 ```txt
 src/Web_Visual/index.html
 ```
 
-## Arquitectura del proyecto
+## Estructura
 
 ```txt
 src/
-├── Web_Visual/          HTML + CSS de la interfaz web
-├── Persistence/         Cliente compartido de Supabase
-└── Domain/
-    └── DataStructures/  TDA en JavaScript puro
+  Web_Visual/              HTML + CSS
+  Persistence/             Conexion a Supabase
+  Domain/
+    DataStructures/        TDA en JavaScript
 
-database/                Scripts SQL para Supabase
+database/                  Scripts SQL de Supabase
 ```
 
-| Capa | Carpeta | Tecnologia | Que hace |
-|------|---------|------------|----------|
-| Presentacion | `src/Web_Visual/` | HTML5 + CSS3 | Login, registro y dashboard |
+| Capa | Carpeta | Tecnologia | Funcion |
+|------|---------|------------|---------|
+| Presentacion | `src/Web_Visual/` | HTML5 + CSS3 | Interfaz de usuario |
 | Persistencia | `src/Persistence/` | JS + Supabase SDK | Conexion a base de datos |
-| Dominio | `src/Domain/DataStructures/` | JavaScript Vanilla | Cola, arbol, grafo y lista |
+| Dominio | `src/Domain/DataStructures/` | JavaScript | Cola, arbol, grafo y lista |
 
-## Modulos del sistema
+## Modulos
 
 | Modulo | TDA | Tabla Supabase |
 |--------|-----|----------------|
 | Atencion - Turnos | Cola FIFO | `turnos` |
-| Documentos | Arbol N-ario | `documentos` |
-| Rutas del Campus | Grafo + Dijkstra | `nodos_campus`, `rutas_campus` |
-| Tramites | Lista Enlazada | `tramites` |
+| Documentos | Arbol | `documentos` |
+| Rutas del campus | Grafo + Dijkstra | `nodos_campus`, `rutas_campus` |
+| Tramites | Lista enlazada | `tramites` |
 
 ## Supabase
 
@@ -57,11 +58,11 @@ El cliente compartido esta en:
 src/Persistence/supabaseClient.js
 ```
 
-La `anon public key` puede usarse en frontend. La `service_role key` nunca debe subirse al codigo.
+La anon public key esta en ese archivo. Es correcto para frontend siempre que Supabase tenga RLS configurado. No se debe subir nunca la `service_role key`.
 
-## Crear la base de datos
+## Crear base de datos
 
-En Supabase SQL Editor, ejecutar en orden:
+En Supabase SQL Editor ejecuta en orden:
 
 ```txt
 database/01_tablas.sql
@@ -69,58 +70,58 @@ database/02_politicas_rls.sql
 database/03_datos_prueba.sql
 ```
 
-El script `03_datos_prueba.sql` crea usuarios de prueba. La contrasena para esos usuarios es:
+El tercer script es opcional y crea usuarios/datos de prueba.
+
+Usuario de prueba:
 
 ```txt
+admin@uta.edu.ec
 123456
 ```
 
-## Abrir localmente
+## Ejecutar localmente
 
-Usa Live Server sobre:
+Abre con Live Server:
 
 ```txt
 src/Web_Visual/index.html
 ```
 
-Para probar desde otro celular o laptop en la misma red, no uses `127.0.0.1`. Usa la IP de la laptop:
+Para probar desde otro celular o laptop en la misma red, no uses `127.0.0.1`; usa la IP de tu laptop:
 
 ```txt
 http://IP_DE_TU_LAPTOP:5500/src/Web_Visual/index.html
 ```
 
+Para acceso desde internet, usa GitHub Pages.
+
 ## GitHub Pages
 
-Configuracion recomendada:
+El proyecto esta preparado para publicarse desde una rama y la carpeta raiz.
 
-```txt
-Settings -> Pages
-Source: Deploy from a branch
-Branch: main
-Folder: / (raiz)
-```
+En GitHub:
 
-Para pausar la pagina publica, cambia `Source` a `None` o deshabilita GitHub Pages desde Settings -> Pages.
+1. Ve a `Settings`.
+2. Entra a `Pages`.
+3. En `Source`, elige `Deploy from a branch`.
+4. En `Branch`, usa la rama configurada para Pages. En tu GitHub aparece `principal`.
+5. En `Folder`, elige `/ (root)`.
+6. Guarda los cambios.
 
-## Estado actual
+La pestana `Actions` puede mostrar ejecuciones de Pages. Eso es normal: son registros de despliegue, no copias diferentes del proyecto.
 
-- [x] Login conectado a Supabase
-- [x] Registro conectado a Supabase
-- [x] Cliente Supabase centralizado
-- [x] Redireccion de GitHub Pages desde `index.html`
-- [x] Dashboard protegido con `localStorage`
-- [x] Scripts SQL para tablas, RLS y datos de prueba
-- [x] TDA implementados en `src/Domain/DataStructures/`
-- [ ] Modulo visual de Turnos conectado a Supabase
-- [ ] Modulo visual de Documentos conectado a Supabase
-- [ ] Modulo visual de Rutas conectado a Supabase
-- [ ] Modulo visual de Tramites conectado a Supabase
+## Estado
 
-## Flujo Git normal
+- Login conectado a Supabase.
+- Registro conectado a Supabase.
+- Cliente Supabase centralizado.
+- Dashboard protegido por sesion en `localStorage`.
+- Scripts SQL listos para crear tablas y politicas.
+- GitHub Pages preparado desde la raiz del repo.
 
-```bash
-git status
-git add .
-git commit -m "mensaje descriptivo"
-git push
-```
+Pendiente para una version mas completa:
+
+- Conectar el modulo de turnos con Supabase.
+- Conectar documentos con Supabase.
+- Conectar rutas con Supabase.
+- Conectar tramites con Supabase.

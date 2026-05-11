@@ -1,4 +1,4 @@
-/* Paleta: beige calido con matiz rojo UTA */
+/* Paleta: rojo UTA con fondo calido claro */
 :root {
     --rojo-uta: #D32F2F;
     --rojo-hover: #B71C1C;
@@ -7,6 +7,7 @@
     --fondo-pagina: #F2E8D5;
     --fondo-contenedor: #FAF7F0;
     --borde: #E9E1D2;
+    --exito: #2E7D32;
 }
 
 * {
@@ -100,7 +101,20 @@ input:focus {
 
 .btn:disabled {
     cursor: wait;
-    opacity: 0.72;
+    opacity: 0.75;
+}
+
+.message {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.message-error {
+    color: var(--rojo-uta);
+}
+
+.message-success {
+    color: var(--exito);
 }
 
 .footer-text {
@@ -130,7 +144,7 @@ input:focus {
     background-color: var(--fondo-contenedor);
     border: 1px solid var(--borde);
     padding: 25px;
-    border-radius: 12px;
+    border-radius: 8px;
     text-align: left;
     transition: all 0.3s ease;
 }
@@ -168,15 +182,4 @@ input:focus {
 .btn-small:hover {
     background-color: var(--rojo-uta);
     color: white;
-}
-
-@media (max-width: 520px) {
-    form,
-    .dashboard-container {
-        padding: 30px 22px;
-    }
-
-    h2 {
-        font-size: 23px;
-    }
 }

@@ -14,13 +14,13 @@
 
     <input type="text" id="nombre" placeholder="Nombre completo" required>
     <input type="email" id="email" placeholder="Correo institucional" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
+    <input type="password" id="password" placeholder="Contrase&ntilde;a" required>
 
     <button type="submit" class="btn" id="btnRegistrar">Registrar en BD</button>
 
-    <p id="mensajeEstado" style="font-size:14px; margin-top:10px; display:none;"></p>
+    <p id="mensajeEstado" class="message" hidden></p>
 
-    <p class="footer-text">¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
+    <p class="footer-text">&iquest;Ya tienes cuenta? <a href="index.html">Inicia sesi&oacute;n</a></p>
 </form>
 
 <script type="module">
@@ -32,14 +32,15 @@
 
     function mostrarMensaje(texto, esError) {
         msg.textContent = texto;
-        msg.style.color = esError ? '#D32F2F' : '#2E7D32';
-        msg.style.display = 'block';
+        msg.className = esError ? 'message message-error' : 'message message-success';
+        msg.hidden = false;
     }
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
         btn.textContent = 'Registrando...';
         btn.disabled = true;
+        msg.hidden = true;
 
         const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
@@ -47,10 +48,11 @@
 
         try {
             await registrarUsuario(nombre, email, password);
-            mostrarMensaje('¡Cuenta creada! Redirigiendo...', false);
+            mostrarMensaje('Cuenta creada. Redirigiendo...', false);
+
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
-            }, 1500);
+            }, 1200);
         } catch (error) {
             mostrarMensaje(error.message, true);
             btn.textContent = 'Registrar en BD';

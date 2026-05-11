@@ -16,50 +16,50 @@
 
     <div class="grid-modules">
         <div class="card">
-            <h3>Atención (Colas)</h3>
-            <p>Gestión de turnos FIFO para atención estudiantil.</p>
+            <h3>Atenci&oacute;n (Colas)</h3>
+            <p>Gesti&oacute;n de turnos FIFO para atenci&oacute;n estudiantil.</p>
             <button class="btn-small">Ver Turnos</button>
         </div>
 
         <div class="card">
-            <h3>Documentos (Árboles)</h3>
-            <p>Organización jerárquica de archivos académicos.</p>
+            <h3>Documentos (&Aacute;rboles)</h3>
+            <p>Organizaci&oacute;n jer&aacute;rquica de archivos acad&eacute;micos.</p>
             <button class="btn-small">Explorar</button>
         </div>
 
         <div class="card">
             <h3>Rutas (Grafos)</h3>
-            <p>Cálculo de rutas óptimas dentro del campus.</p>
+            <p>C&aacute;lculo de rutas &oacute;ptimas dentro del campus.</p>
             <button class="btn-small">Ver Mapa</button>
         </div>
 
         <div class="card">
-            <h3>Trámites (Listas)</h3>
-            <p>Historial dinámico de solicitudes ingresadas.</p>
+            <h3>Tr&aacute;mites (Listas)</h3>
+            <p>Historial din&aacute;mico de solicitudes ingresadas.</p>
             <button class="btn-small">Mi Historial</button>
         </div>
     </div>
 
     <footer>
-        <p class="footer-text"><a href="#" id="btnLogout">Cerrar Sesión</a></p>
+        <p class="footer-text"><a href="#" id="btnLogout">Cerrar sesi&oacute;n</a></p>
     </footer>
 </div>
 
-<script>
-    const raw = localStorage.getItem('smartcampus_usuario');
+<script type="module">
+    import { cerrarSesion, obtenerUsuarioActual } from '../Persistence/supabaseClient.js';
 
-    if (!raw) {
+    const usuario = obtenerUsuarioActual();
+
+    if (!usuario) {
         window.location.href = 'index.html';
     } else {
-        const usuario = JSON.parse(raw);
         document.getElementById('nombreUsuario').textContent = usuario.nombre;
         document.getElementById('rolUsuario').textContent = 'Rol: ' + usuario.rol;
     }
 
-    document.getElementById('btnLogout').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('smartcampus_usuario');
-        window.location.href = 'index.html';
+    document.getElementById('btnLogout').addEventListener('click', (event) => {
+        event.preventDefault();
+        cerrarSesion();
     });
 </script>
 

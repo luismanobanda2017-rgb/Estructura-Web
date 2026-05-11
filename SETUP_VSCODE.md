@@ -1,4 +1,4 @@
-# Guia: abrir el proyecto en VS Code y conectarlo con GitHub
+# Guia: abrir el proyecto en VS Code y subir cambios
 
 ## 1. Instalar programas
 
@@ -6,7 +6,13 @@
 |----------|------|----------------|
 | VS Code | https://code.visualstudio.com | Editor de codigo |
 | Git | https://git-scm.com/downloads | Control de versiones |
-| Node.js LTS | https://nodejs.org | Herramientas para desarrollo web |
+| Node.js LTS | https://nodejs.org | Soporte para herramientas locales |
+
+Extension recomendada en VS Code:
+
+```txt
+Live Server
+```
 
 ## 2. Clonar el proyecto
 
@@ -16,46 +22,23 @@ cd Estructura-Web
 code .
 ```
 
-## 3. Instalar extensiones en VS Code
+## 3. Abrir el sitio local
 
-En VS Code, abrir Extensions e instalar:
+Con Live Server:
 
-- Live Server
-- GitLens
-- Prettier - Code formatter
-
-## 4. Revisar Supabase
-
-El cliente compartido ya esta configurado en:
-
-```txt
-src/Persistence/supabaseClient.js
-```
-
-Proyecto Supabase:
-
-```txt
-https://uizabeaqthcsxuimclji.supabase.co
-```
-
-Importante:
-
-- La `anon public key` si puede estar en frontend.
-- La `service_role key` nunca debe publicarse.
-- No subas archivos `.env` con claves privadas.
-
-## 5. Abrir con Live Server
-
-1. Clic derecho sobre `src/Web_Visual/index.html`.
+1. Clic derecho en `src/Web_Visual/index.html`.
 2. Selecciona `Open with Live Server`.
-3. Se abre el navegador normalmente en `http://127.0.0.1:5500`.
-4. Prueba registro, login y dashboard.
+3. El navegador abre una direccion parecida a:
 
-## 6. Abrir desde otro celular o laptop en la misma red
+```txt
+http://127.0.0.1:5500/src/Web_Visual/index.html
+```
 
-No uses `127.0.0.1` desde otro dispositivo, porque apunta al propio dispositivo.
+## 4. Probar desde otro dispositivo en la misma red
 
-Usa la IP de tu laptop:
+`127.0.0.1` solo sirve en la laptop donde corre Live Server.
+
+Para un celular u otra laptop usa la IP real de tu laptop:
 
 ```txt
 http://IP_DE_TU_LAPTOP:5500/src/Web_Visual/index.html
@@ -67,9 +50,27 @@ Ejemplo:
 http://172.168.0.78:5500/src/Web_Visual/index.html
 ```
 
-Si no carga, permite el acceso de VS Code o Live Server en el Firewall de Windows.
+Si no abre, permite VS Code o Live Server en el Firewall de Windows.
 
-## 7. Subir cambios a GitHub
+## 5. Supabase
+
+El proyecto usa el cliente compartido:
+
+```txt
+src/Persistence/supabaseClient.js
+```
+
+La anon public key puede estar en el frontend. Nunca pegues la `service_role key` en el codigo.
+
+Para crear la base de datos, ejecuta en Supabase SQL Editor:
+
+```txt
+database/01_tablas.sql
+database/02_politicas_rls.sql
+database/03_datos_prueba.sql
+```
+
+## 6. Subir cambios a GitHub
 
 ```bash
 git status
@@ -78,7 +79,9 @@ git commit -m "docs: actualizar guia del proyecto"
 git push
 ```
 
-## 8. Publicar con GitHub Pages
+Desde VS Code tambien puedes usar el panel `Source Control`.
+
+## 7. GitHub Pages
 
 Sitio publico:
 
@@ -86,36 +89,24 @@ Sitio publico:
 https://luismanobanda2017-rgb.github.io/Estructura-Web/
 ```
 
-Configuracion:
+Para activar:
 
-1. Entra al repositorio `Estructura-Web` en GitHub.
-2. Ve a `Settings -> Pages`.
-3. En `Source`, selecciona `Deploy from a branch`.
-4. En `Branch`, selecciona `main`.
-5. En carpeta, selecciona `/ (raiz)`.
-6. Guarda los cambios.
-7. Espera entre 1 y 10 minutos.
+1. Entra al repositorio en GitHub.
+2. Ve a `Settings` > `Pages`.
+3. En `Source`, elige `Deploy from a branch`.
+4. En `Branch`, elige la rama configurada para Pages. En tu GitHub aparece `principal`.
+5. En `Folder`, elige `/ (root)`.
+6. Guarda.
 
-## 9. Pausar la pagina publica
+Para pausar:
 
-1. Ve a `Settings -> Pages`.
-2. Cambia `Source` a `None` si aparece.
-3. Si GitHub muestra un boton para deshabilitar Pages, usalo.
-4. Espera unos minutos.
+1. Ve a `Settings` > `Pages`.
+2. Cambia `Source` a `None`, si aparece, o deshabilita Pages.
+3. Espera unos minutos.
 
-## 10. Reactivar la pagina publica
+## 8. Sobre la pestana Actions / Comportamiento
 
-1. Ve a `Settings -> Pages`.
-2. Selecciona `Deploy from a branch`.
-3. Selecciona la rama `main`.
-4. Selecciona la carpeta `/ (raiz)`.
-5. Guarda los cambios.
+GitHub muestra ahi las ejecuciones automaticas.
 
-## 11. Probar registro y login
-
-1. Abre `src/Web_Visual/index.html` con Live Server.
-2. Clic en `Crea una cuenta`.
-3. Ingresa nombre, correo `@uta.edu.ec` y contrasena.
-4. Clic en `Registrar en BD`.
-5. Revisa Supabase -> Table Editor -> tabla `usuarios`.
-6. Cierra sesion y entra con el usuario creado.
+`pages-build-deployment` es el despliegue normal de GitHub Pages.
+No significa que tengas varios proyectos ni archivos diferentes; solo muestra el historial de publicaciones.
