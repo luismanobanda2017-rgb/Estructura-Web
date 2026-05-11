@@ -46,19 +46,16 @@
 </div>
 
 <script>
-    // Cargar usuario de la sesión
     const raw = localStorage.getItem('smartcampus_usuario');
 
-    // Si no hay sesión, redirigir al login
     if (!raw) {
         window.location.href = 'index.html';
     } else {
         const usuario = JSON.parse(raw);
         document.getElementById('nombreUsuario').textContent = usuario.nombre;
-        document.getElementById('rolUsuario').textContent    = 'Rol: ' + usuario.rol;
+        document.getElementById('rolUsuario').textContent = 'Rol: ' + usuario.rol;
     }
 
-    // Botón de cerrar sesión
     document.getElementById('btnLogout').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.removeItem('smartcampus_usuario');

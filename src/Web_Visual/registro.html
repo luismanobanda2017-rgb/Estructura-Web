@@ -12,9 +12,9 @@
     <h2>Registro de Usuario <span>(UTA)</span></h2>
     <p class="subtitle">Crea tu cuenta institucional</p>
 
-    <input type="text"     id="nombre"   placeholder="Nombre completo"      required>
-    <input type="email"    id="email"    placeholder="Correo institucional"  required>
-    <input type="password" id="password" placeholder="Contraseña"            required>
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    <input type="email" id="email" placeholder="Correo institucional" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
 
     <button type="submit" class="btn" id="btnRegistrar">Registrar en BD</button>
 
@@ -24,11 +24,11 @@
 </form>
 
 <script type="module">
-    import { supabase } from '../Persistence/supabaseClient.js';
+    import { registrarUsuario } from '../Persistence/supabaseClient.js';
 
-    const form  = document.getElementById('formRegistro');
-    const btn   = document.getElementById('btnRegistrar');
-    const msg   = document.getElementById('mensajeEstado');
+    const form = document.getElementById('formRegistro');
+    const btn = document.getElementById('btnRegistrar');
+    const msg = document.getElementById('mensajeEstado');
 
     function mostrarMensaje(texto, esError) {
         msg.textContent = texto;
@@ -41,54 +41,21 @@
         btn.textContent = 'Registrando...';
         btn.disabled = true;
 
-        const nombre   = document.getElementById('nombre').value.trim();
-        const email    = document.getElementById('email').value.trim();
+        const nombre = document.getElementById('nombre').value;
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Validar que sea correo institucional UTA
-        if (!email.endsWith('@uta.edu.ec')) {
-            mostrarMensaje('Usa tu correo institucional (@uta.edu.ec)', true);
+        try {
+            await registrarUsuario(nombre, email, password);
+            mostrarMensaje('¡Cuenta creada! Redirigiendo...', false);
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        } catch (error) {
+            mostrarMensaje(error.message, true);
             btn.textContent = 'Registrar en BD';
             btn.disabled = false;
-            return;
         }
-
-        const passwordHash = btoa(password + '_uta_salt');
-
-        // Verificar si el email ya existe
-        const { data: existe } = await supabase
-            .from('usuarios')
-            .select('id')
-            .eq('email', email)
-            .single();
-
-        if (existe) {
-            mostrarMensaje('Ese correo ya está registrado.', true);
-            btn.textContent = 'Registrar en BD';
-            btn.disabled = false;
-            return;
-        }
-
-        // Insertar nuevo usuario
-        const { data, error } = await supabase
-            .from('usuarios')
-            .insert([{ nombre, email, password_hash: passwordHash, rol: 'estudiante' }])
-            .select()
-            .single();
-
-        if (error) {
-            mostrarMensaje('Error al registrar: ' + error.message, true);
-            btn.textContent = 'Registrar en BD';
-            btn.disabled = false;
-            return;
-        }
-
-        mostrarMensaje('¡Cuenta creada! Redirigiendo...', false);
-        localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
-
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 1500);
     });
 </script>
 

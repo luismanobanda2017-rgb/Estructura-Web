@@ -1,85 +1,75 @@
 // ============================================================
-// SmartCampus UTA — supabaseClient.js
-// Capa de Persistencia: Conexión a Supabase
-// ============================================================
-// INSTRUCCIONES:
-//   1. Crea un archivo llamado ".env" en la raíz del proyecto
-//   2. Agrega estas líneas adentro del .env:
-//        SUPABASE_URL=https://uizabeaqthcsxuimclji.supabase.co
-//        SUPABASE_ANON_KEY=eyJ...tu_clave_aqui
-//   3. El .gitignore ya está configurado para que .env NO suba a GitHub
+// SmartCampus UTA - supabaseClient.js
+// Capa de Persistencia: conexion a Supabase
 // ============================================================
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-// Para frontend puro (sin Node.js), pega tus credenciales aquí SOLO EN LOCAL:
-const SUPABASE_URL     = 'https://uizabeaqthcsxuimclji.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpemFiZWFxdGhjc3h1aW1jbGppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzE4MjUsImV4cCI6MjA5NDAwNzgyNX0.H4vQ555fMICjG3c7qwY8n6dc_hYKcDZcaOMS-a4H9H4'; // Obtener de: Supabase → Settings → API → anon public
+const SUPABASE_URL = 'https://uizabeaqthcsxuimclji.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpemFiZWFxdGhjc3h1aW1jbGppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzE4MjUsImV4cCI6MjA5NDAwNzgyNX0.H4vQ555fMICjG3c7qwY8n6dc_hYKcDZcaOMS-a4H9H4';
 
-// ⚠️ La anon key es SEGURA para el frontend porque Supabase usa RLS (Row Level Security)
-// ❌ NUNCA pongas aquí la "service_role key" — esa sí es privada
-
+// La anon key puede estar en el frontend. Nunca publiques la service_role key.
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─────────────────────────────────────────
-// FUNCIONES DE AUTENTICACIÓN
-// ─────────────────────────────────────────
+function normalizarEmail(email) {
+    return email.trim().toLowerCase();
+}
 
-/**
- * Registrar un nuevo usuario en la tabla 'usuarios'
- * @param {string} nombre - Nombre completo
- * @param {string} email - Correo institucional
- * @param {string} password - Contraseña en texto plano (se guardará como hash simple)
- */
+function generarPasswordHash(password) {
+    return btoa(password + '_uta_salt');
+}
+
 export async function registrarUsuario(nombre, email, password) {
-    // Hash simple con btoa (en producción usar bcrypt o Supabase Auth)
-    const passwordHash = btoa(password + '_uta_salt');
+    const emailNormalizado = normalizarEmail(email);
+
+    if (!emailNormalizado.endsWith('@uta.edu.ec')) {
+        throw new Error('Usa tu correo institucional (@uta.edu.ec).');
+    }
 
     const { data, error } = await supabase
         .from('usuarios')
-        .insert([{ nombre, email, password_hash: passwordHash, rol: 'estudiante' }])
+        .insert([{
+            nombre: nombre.trim(),
+            email: emailNormalizado,
+            password_hash: generarPasswordHash(password),
+            rol: 'estudiante'
+        }])
         .select()
         .single();
 
-    if (error) throw new Error('Error al registrar: ' + error.message);
-    return data;
-}
+    if (error?.code === '23505') {
+        throw new Error('Ese correo ya esta registrado.');
+    }
 
-/**
- * Iniciar sesión verificando email y contraseña
- * @param {string} email
- * @param {string} password
- * @returns {object} usuario si es válido
- */
-export async function iniciarSesion(email, password) {
-    const passwordHash = btoa(password + '_uta_salt');
+    if (error) {
+        throw new Error('Error al registrar: ' + error.message);
+    }
 
-    const { data, error } = await supabase
-        .from('usuarios')
-        .select('*')
-        .eq('email', email)
-        .eq('password_hash', passwordHash)
-        .single();
-
-    if (error || !data) throw new Error('Correo o contraseña incorrectos.');
-
-    // Guardar sesión en localStorage
     localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
     return data;
 }
 
-/**
- * Obtener el usuario actualmente logueado
- * @returns {object|null}
- */
+export async function iniciarSesion(email, password) {
+    const { data, error } = await supabase
+        .from('usuarios')
+        .select('*')
+        .eq('email', normalizarEmail(email))
+        .eq('password_hash', generarPasswordHash(password))
+        .single();
+
+    if (error || !data) {
+        throw new Error('Correo o contrasena incorrectos.');
+    }
+
+    localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
+    return data;
+}
+
 export function obtenerUsuarioActual() {
     const raw = localStorage.getItem('smartcampus_usuario');
     return raw ? JSON.parse(raw) : null;
 }
 
-/**
- * Cerrar sesión
- */
 export function cerrarSesion() {
     localStorage.removeItem('smartcampus_usuario');
     window.location.href = 'index.html';

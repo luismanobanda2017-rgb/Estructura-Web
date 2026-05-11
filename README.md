@@ -1,110 +1,126 @@
-# 🎓 SmartCampus UTA — Proyecto Integrador
+# SmartCampus UTA - Proyecto Integrador
 
-> **Estructura de Datos · Universidad Técnica de Ambato**  
-> Sistema web de gestión universitaria implementando TDA en JavaScript + Supabase
+Sistema web de gestion universitaria para la Universidad Tecnica de Ambato, implementado con JavaScript Vanilla, Supabase y estructuras de datos.
 
----
+## Sitio publico
 
-## 🚀 Arquitectura del Proyecto (Por Capas)
-
-```
-src/
-├── Web_Visual/          ← HTML + CSS (interfaz web)
-├── Persistence/         ← Conexión a Supabase
-└── Domain/
-    └── DataStructures/  ← TDA implementados en JavaScript puro
-
-database/                ← Scripts SQL para crear tablas en Supabase
-```
-
-| Capa | Carpeta | Tecnología | Qué hace |
-|------|---------|-----------|---------|
-| Presentación | `src/Web_Visual/` | HTML5 + CSS3 | Interfaces de usuario |
-| Persistencia | `src/Persistence/` | JS + Supabase SDK | Conexión a base de datos |
-| Dominio | `src/Domain/DataStructures/` | JavaScript Vanilla | TDA: Cola, Árbol, Grafo, Lista |
-
----
-
-## 🛠️ Tecnologías
-
-- **Base de datos:** Supabase (PostgreSQL) — proyecto `uizabeaqthcsxuimclji`
-- **Lenguaje:** JavaScript Vanilla (sin frameworks)
-- **Estilo:** CSS3 con variables (paleta rojo UTA + beige cálido)
-- **Arquitectura:** Por capas · Separación de responsabilidades
-
----
-
-## 📌 Módulos del Sistema
-
-| Módulo | TDA | Tabla Supabase |
-|--------|-----|---------------|
-| 🎫 Atención — Turnos | Cola FIFO | `turnos` |
-| 📁 Documentos | Árbol N-ario | `documentos` |
-| 🗺️ Rutas del Campus | Grafo + Dijkstra | `nodos_campus`, `rutas_campus` |
-| 📋 Trámites | Lista Enlazada | `tramites` |
-
----
-
-## ⚙️ Instalación
-
-### 1. Clonar
-```bash
-git clone https://github.com/luismanobanda2017-rgb/Estructura-Web.git
-cd Estructura-Web
-```
-
-### 2. Pegar tu clave de Supabase
-En `src/Persistence/supabaseClient.js`, línea marcada con `PEGAR_ANON_KEY_AQUI`:
-- Ve a [Supabase → Settings → API](https://supabase.com/dashboard/project/uizabeaqthcsxuimclji/settings/api)
-- Copia la **anon public key** (empieza con `eyJ`)
-- Pégala donde dice `PEGAR_ANON_KEY_AQUI`
-
-### 3. Crear tablas en Supabase
-En el [SQL Editor](https://supabase.com/dashboard/project/uizabeaqthcsxuimclji/editor), ejecuta en orden:
-1. `database/01_tablas.sql`
-2. `database/02_politicas_rls.sql`
-3. `database/03_datos_prueba.sql` (opcional)
-
-### 4. Abrir localmente
-Abre `src/Web_Visual/index.html` con Live Server.
-
-### 5. Abrir en internet
-El sitio público de GitHub Pages es:
+GitHub Pages:
 
 ```txt
 https://luismanobanda2017-rgb.github.io/Estructura-Web/
 ```
 
-Para activar o pausar la página:
+El archivo `index.html` de la raiz redirige automaticamente a:
 
-1. Entra al repositorio en GitHub.
-2. Ve a **Settings** → **Pages**.
-3. Para activar: usa `Deploy from a branch`, rama `principal` y carpeta `/ (raíz)`.
-4. Para pausar: cambia la fuente a `None` o deshabilita GitHub Pages.
+```txt
+src/Web_Visual/index.html
+```
 
----
+## Arquitectura del proyecto
 
-## 📌 Estado actual
+```txt
+src/
+├── Web_Visual/          HTML + CSS de la interfaz web
+├── Persistence/         Cliente compartido de Supabase
+└── Domain/
+    └── DataStructures/  TDA en JavaScript puro
 
-- [x] Estructura de carpetas por capas
-- [x] Diseño de interfaz (index, registro, dashboard)
-- [x] TDA implementados: Cola, Árbol, Grafo + Dijkstra, Lista Enlazada
-- [x] Scripts SQL con 6 tablas y RLS
-- [x] Cliente Supabase con login y registro
-- [ ] Módulo de Turnos conectado a Supabase
-- [ ] Módulo de Documentos conectado a Supabase
-- [ ] Módulo de Rutas conectado a Supabase
-- [ ] Módulo de Trámites conectado a Supabase
+database/                Scripts SQL para Supabase
+```
 
----
+| Capa | Carpeta | Tecnologia | Que hace |
+|------|---------|------------|----------|
+| Presentacion | `src/Web_Visual/` | HTML5 + CSS3 | Login, registro y dashboard |
+| Persistencia | `src/Persistence/` | JS + Supabase SDK | Conexion a base de datos |
+| Dominio | `src/Domain/DataStructures/` | JavaScript Vanilla | Cola, arbol, grafo y lista |
 
-## 🔐 Seguridad (contraseñas)
+## Modulos del sistema
 
-- Las contraseñas se guardan como **hash**, no en texto plano
-- La `anon key` de Supabase es **segura** en el frontend (Supabase usa RLS)
-- La `service_role key` NUNCA va en el código
-- El archivo `.env` está bloqueado por `.gitignore`
+| Modulo | TDA | Tabla Supabase |
+|--------|-----|----------------|
+| Atencion - Turnos | Cola FIFO | `turnos` |
+| Documentos | Arbol N-ario | `documentos` |
+| Rutas del Campus | Grafo + Dijkstra | `nodos_campus`, `rutas_campus` |
+| Tramites | Lista Enlazada | `tramites` |
 
----
+## Supabase
 
-> Universidad Técnica de Ambato · Facultad de Ingeniería en Sistemas · Estructura de Datos 2025
+Proyecto:
+
+```txt
+https://uizabeaqthcsxuimclji.supabase.co
+```
+
+El cliente compartido esta en:
+
+```txt
+src/Persistence/supabaseClient.js
+```
+
+La `anon public key` puede usarse en frontend. La `service_role key` nunca debe subirse al codigo.
+
+## Crear la base de datos
+
+En Supabase SQL Editor, ejecutar en orden:
+
+```txt
+database/01_tablas.sql
+database/02_politicas_rls.sql
+database/03_datos_prueba.sql
+```
+
+El script `03_datos_prueba.sql` crea usuarios de prueba. La contrasena para esos usuarios es:
+
+```txt
+123456
+```
+
+## Abrir localmente
+
+Usa Live Server sobre:
+
+```txt
+src/Web_Visual/index.html
+```
+
+Para probar desde otro celular o laptop en la misma red, no uses `127.0.0.1`. Usa la IP de la laptop:
+
+```txt
+http://IP_DE_TU_LAPTOP:5500/src/Web_Visual/index.html
+```
+
+## GitHub Pages
+
+Configuracion recomendada:
+
+```txt
+Settings -> Pages
+Source: Deploy from a branch
+Branch: main
+Folder: / (raiz)
+```
+
+Para pausar la pagina publica, cambia `Source` a `None` o deshabilita GitHub Pages desde Settings -> Pages.
+
+## Estado actual
+
+- [x] Login conectado a Supabase
+- [x] Registro conectado a Supabase
+- [x] Cliente Supabase centralizado
+- [x] Redireccion de GitHub Pages desde `index.html`
+- [x] Dashboard protegido con `localStorage`
+- [x] Scripts SQL para tablas, RLS y datos de prueba
+- [x] TDA implementados en `src/Domain/DataStructures/`
+- [ ] Modulo visual de Turnos conectado a Supabase
+- [ ] Modulo visual de Documentos conectado a Supabase
+- [ ] Modulo visual de Rutas conectado a Supabase
+- [ ] Modulo visual de Tramites conectado a Supabase
+
+## Flujo Git normal
+
+```bash
+git status
+git add .
+git commit -m "mensaje descriptivo"
+git push
+```

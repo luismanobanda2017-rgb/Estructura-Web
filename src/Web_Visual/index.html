@@ -23,11 +23,15 @@
 </form>
 
 <script type="module">
-    import { supabase } from '../Persistence/supabaseClient.js';
+    import { iniciarSesion } from '../Persistence/supabaseClient.js';
 
-    const form     = document.getElementById('formLogin');
+    const form = document.getElementById('formLogin');
     const btnLogin = document.getElementById('btnLogin');
     const msgError = document.getElementById('mensajeError');
+
+    if (localStorage.getItem('smartcampus_usuario')) {
+        window.location.href = 'dashboard.html';
+    }
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -35,34 +39,19 @@
         btnLogin.disabled = true;
         msgError.style.display = 'none';
 
-        const email    = document.getElementById('email').value.trim();
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const hash     = btoa(password + '_uta_salt');
 
-        const { data, error } = await supabase
-            .from('usuarios')
-            .select('*')
-            .eq('email', email)
-            .eq('password_hash', hash)
-            .single();
-
-        if (error || !data) {
-            msgError.textContent = 'Correo o contraseña incorrectos.';
+        try {
+            await iniciarSesion(email, password);
+            window.location.href = 'dashboard.html';
+        } catch (error) {
+            msgError.textContent = error.message;
             msgError.style.display = 'block';
             btnLogin.textContent = 'Ingresar';
             btnLogin.disabled = false;
-            return;
         }
-
-        // Guardar sesión y redirigir
-        localStorage.setItem('smartcampus_usuario', JSON.stringify(data));
-        window.location.href = 'dashboard.html';
     });
-
-    // Si ya hay sesión activa, ir directo al dashboard
-    if (localStorage.getItem('smartcampus_usuario')) {
-        window.location.href = 'dashboard.html';
-    }
 </script>
 
 </body>

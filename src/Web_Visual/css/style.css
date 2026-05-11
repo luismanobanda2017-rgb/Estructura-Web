@@ -1,17 +1,12 @@
-/* Paleta: Beige Cálido con Matiz Naranja (Integración al 40%) */
+/* Paleta: beige calido con matiz rojo UTA */
 :root {
     --rojo-uta: #D32F2F;
     --rojo-hover: #B71C1C;
     --negro-texto: #4A4540;
     --gris-cuerpo: #7D7771;
-
-    /* FONDO DE PÁGINA (Color de referencia exterior) */
     --fondo-pagina: #F2E8D5;
-
-    /* FONDO DE CONTENEDORES (Intensidad al 40%) */
-    --fondo-contenedor: #FAF7F0; /* Tono crema muy ligero y limpio */
-
-    --borde: #E9E1D2; /* Borde más suave para acompañar la claridad del contenedor */
+    --fondo-contenedor: #FAF7F0;
+    --borde: #E9E1D2;
 }
 
 * {
@@ -31,8 +26,8 @@ body {
     padding: 20px;
 }
 
-/* Contenedor principal con el color al 40% */
-form, .dashboard-container {
+form,
+.dashboard-container {
     background-color: var(--fondo-contenedor);
     padding: 45px;
     width: 100%;
@@ -67,7 +62,6 @@ h2 span {
     margin-bottom: 35px;
 }
 
-/* Inputs para mantener la claridad al escribir */
 input {
     width: 100%;
     padding: 14px 16px;
@@ -98,10 +92,15 @@ input:focus {
     transition: all 0.2s;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
     background-color: var(--rojo-hover);
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(211, 47, 47, 0.25);
+}
+
+.btn:disabled {
+    cursor: wait;
+    opacity: 0.72;
 }
 
 .footer-text {
@@ -169,4 +168,15 @@ input:focus {
 .btn-small:hover {
     background-color: var(--rojo-uta);
     color: white;
+}
+
+@media (max-width: 520px) {
+    form,
+    .dashboard-container {
+        padding: 30px 22px;
+    }
+
+    h2 {
+        font-size: 23px;
+    }
 }

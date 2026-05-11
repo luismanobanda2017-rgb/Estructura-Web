@@ -1,18 +1,14 @@
-# 🖥️ Guía: Abrir proyecto en VS Code y conectar con GitHub
+# Guia: abrir el proyecto en VS Code y conectarlo con GitHub
 
-## PASO 1 — Instalar programas (solo una vez)
+## 1. Instalar programas
 
-| Programa | Link | Para qué |
-|----------|------|---------|
-| VS Code | https://code.visualstudio.com | Editor de código |
+| Programa | Link | Para que sirve |
+|----------|------|----------------|
+| VS Code | https://code.visualstudio.com | Editor de codigo |
 | Git | https://git-scm.com/downloads | Control de versiones |
-| Node.js (LTS) | https://nodejs.org | Para Live Server |
+| Node.js LTS | https://nodejs.org | Herramientas para desarrollo web |
 
----
-
-## PASO 2 — Clonar el proyecto desde GitHub
-
-Abre una terminal y ejecuta:
+## 2. Clonar el proyecto
 
 ```bash
 git clone https://github.com/luismanobanda2017-rgb/Estructura-Web.git
@@ -20,47 +16,52 @@ cd Estructura-Web
 code .
 ```
 
-VS Code se abre con todo el proyecto.
+## 3. Instalar extensiones en VS Code
 
----
+En VS Code, abrir Extensions e instalar:
 
-## PASO 3 — Instalar extensiones en VS Code
+- Live Server
+- GitLens
+- Prettier - Code formatter
 
-En VS Code: clic en el ícono de bloques (lado izquierdo) → buscar e instalar:
+## 4. Revisar Supabase
 
-- ✅ **Live Server** (por Ritwick Dey)
-- ✅ **GitLens** (por GitKraken)
-- ✅ **Prettier - Code formatter**
+El cliente compartido ya esta configurado en:
 
----
+```txt
+src/Persistence/supabaseClient.js
+```
 
-## PASO 4 — Pegar tu Anon Key de Supabase
+Proyecto Supabase:
 
-1. Ve a: https://supabase.com/dashboard/project/uizabeaqthcsxuimclji/settings/api
-2. Copia la **anon public key** (empieza con `eyJ...`)
-3. En VS Code abre `src/Persistence/supabaseClient.js`
-4. Reemplaza `PEGAR_ANON_KEY_AQUI` por tu clave.
+```txt
+https://uizabeaqthcsxuimclji.supabase.co
+```
 
----
+Importante:
 
-## PASO 5 — Abrir con Live Server
+- La `anon public key` si puede estar en frontend.
+- La `service_role key` nunca debe publicarse.
+- No subas archivos `.env` con claves privadas.
 
-1. Clic derecho sobre `src/Web_Visual/index.html`
-2. Seleccionar **"Open with Live Server"**
-3. Se abre el navegador en `http://127.0.0.1:5500`
-4. Cada cambio que guardes (Ctrl+S) se actualiza automáticamente
+## 5. Abrir con Live Server
 
-### Abrir desde otro celular o laptop en la misma red
+1. Clic derecho sobre `src/Web_Visual/index.html`.
+2. Selecciona `Open with Live Server`.
+3. Se abre el navegador normalmente en `http://127.0.0.1:5500`.
+4. Prueba registro, login y dashboard.
 
-1. Asegúrate de que ambos dispositivos estén conectados al mismo Wi-Fi.
-2. En la laptop, abre el proyecto con Live Server.
-3. En el otro dispositivo entra a:
+## 6. Abrir desde otro celular o laptop en la misma red
+
+No uses `127.0.0.1` desde otro dispositivo, porque apunta al propio dispositivo.
+
+Usa la IP de tu laptop:
 
 ```txt
 http://IP_DE_TU_LAPTOP:5500/src/Web_Visual/index.html
 ```
 
-Ejemplo si tu laptop tiene la IP `172.168.0.78`:
+Ejemplo:
 
 ```txt
 http://172.168.0.78:5500/src/Web_Visual/index.html
@@ -68,93 +69,53 @@ http://172.168.0.78:5500/src/Web_Visual/index.html
 
 Si no carga, permite el acceso de VS Code o Live Server en el Firewall de Windows.
 
----
-
-## PASO 6 — Subir cambios a GitHub
-
-Cada vez que hagas un cambio:
+## 7. Subir cambios a GitHub
 
 ```bash
-# Ver qué archivos cambiaste
 git status
-
-# Agregar todos los cambios
 git add .
-
-# Guardar con un mensaje descriptivo
-git commit -m "feat: conectar login con Supabase"
-
-# Subir a GitHub
+git commit -m "docs: actualizar guia del proyecto"
 git push
 ```
 
-O desde VS Code: panel izquierdo → ícono de rama (Source Control) → escribir mensaje → clic en ✓
+## 8. Publicar con GitHub Pages
 
----
-
-## PASO 7 — Publicar en internet con GitHub Pages
-
-El sitio público queda en:
+Sitio publico:
 
 ```txt
 https://luismanobanda2017-rgb.github.io/Estructura-Web/
 ```
 
-Para activarlo por primera vez:
+Configuracion:
 
-1. Sube los cambios a GitHub con `git push`.
-2. En GitHub entra al repositorio `Estructura-Web`.
-3. Ve a **Settings** → **Pages**.
-4. En **Source / Fuente**, selecciona **Deploy from a branch / Implementar desde una rama**.
-5. En **Branch / Rama**, selecciona **principal**.
-6. En la carpeta, selecciona **/ (raíz)**.
-7. Clic en **Save / Ahorrar**.
-8. Espera entre 1 y 10 minutos.
+1. Entra al repositorio `Estructura-Web` en GitHub.
+2. Ve a `Settings -> Pages`.
+3. En `Source`, selecciona `Deploy from a branch`.
+4. En `Branch`, selecciona `main`.
+5. En carpeta, selecciona `/ (raiz)`.
+6. Guarda los cambios.
+7. Espera entre 1 y 10 minutos.
 
-Después de eso, cualquier persona con internet podrá entrar al link público.
+## 9. Pausar la pagina publica
 
-### Pausar la página pública
+1. Ve a `Settings -> Pages`.
+2. Cambia `Source` a `None` si aparece.
+3. Si GitHub muestra un boton para deshabilitar Pages, usalo.
+4. Espera unos minutos.
 
-Si quieres que el link deje de estar disponible:
+## 10. Reactivar la pagina publica
 
-1. Ve a **Settings** → **Pages**.
-2. En **Source / Fuente**, cambia la opción a **None / Ninguno** si aparece.
-3. Si GitHub muestra un botón para deshabilitar Pages, úsalo.
-4. Espera unos minutos; el link público dejará de responder.
+1. Ve a `Settings -> Pages`.
+2. Selecciona `Deploy from a branch`.
+3. Selecciona la rama `main`.
+4. Selecciona la carpeta `/ (raiz)`.
+5. Guarda los cambios.
 
-### Reactivar la página pública
+## 11. Probar registro y login
 
-1. Ve a **Settings** → **Pages**.
-2. En **Source / Fuente**, selecciona **Deploy from a branch / Implementar desde una rama**.
-3. En **Branch / Rama**, selecciona **principal**.
-4. En carpeta, selecciona **/ (raíz)**.
-5. Clic en **Save / Ahorrar**.
-6. Espera unos minutos y abre:
-
-```txt
-https://luismanobanda2017-rgb.github.io/Estructura-Web/
-```
-
----
-
-## FLUJO DE TRABAJO NORMAL
-
-```
-1. Abres VS Code
-2. Haces cambios en los archivos
-3. Live Server muestra los cambios en el navegador automáticamente
-4. Pruebas que funcione (registro, login, etc.)
-5. git add . → git commit -m "mensaje" → git push
-6. Los cambios quedan en GitHub y cualquier IA puede verlos
-```
-
----
-
-## PROBAR QUE EL REGISTRO FUNCIONA
-
-1. Abre `index.html` con Live Server
-2. Clic en "Crea una cuenta"
-3. Ingresa: nombre, correo (@uta.edu.ec), contraseña
-4. Clic en "Registrar en BD"
-5. Ve a Supabase → Table Editor → tabla `usuarios`
-6. Deberías ver el nuevo registro ahí ✅
+1. Abre `src/Web_Visual/index.html` con Live Server.
+2. Clic en `Crea una cuenta`.
+3. Ingresa nombre, correo `@uta.edu.ec` y contrasena.
+4. Clic en `Registrar en BD`.
+5. Revisa Supabase -> Table Editor -> tabla `usuarios`.
+6. Cierra sesion y entra con el usuario creado.
