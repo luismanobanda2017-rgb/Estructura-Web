@@ -105,10 +105,35 @@ Para activarlo por primera vez:
 1. Sube los cambios a GitHub con `git push`.
 2. En GitHub entra al repositorio `Estructura-Web`.
 3. Ve a **Settings** → **Pages**.
-4. En **Source**, selecciona **GitHub Actions**.
-5. Espera a que termine el workflow **Deploy SmartCampus UTA to GitHub Pages**.
+4. En **Source / Fuente**, selecciona **Deploy from a branch / Implementar desde una rama**.
+5. En **Branch / Rama**, selecciona **principal**.
+6. En la carpeta, selecciona **/ (raíz)**.
+7. Clic en **Save / Ahorrar**.
+8. Espera entre 1 y 10 minutos.
 
 Después de eso, cualquier persona con internet podrá entrar al link público.
+
+### Pausar la página pública
+
+Si quieres que el link deje de estar disponible:
+
+1. Ve a **Settings** → **Pages**.
+2. En **Source / Fuente**, cambia la opción a **None / Ninguno** si aparece.
+3. Si GitHub muestra un botón para deshabilitar Pages, úsalo.
+4. Espera unos minutos; el link público dejará de responder.
+
+### Reactivar la página pública
+
+1. Ve a **Settings** → **Pages**.
+2. En **Source / Fuente**, selecciona **Deploy from a branch / Implementar desde una rama**.
+3. En **Branch / Rama**, selecciona **principal**.
+4. En carpeta, selecciona **/ (raíz)**.
+5. Clic en **Save / Ahorrar**.
+6. Espera unos minutos y abre:
+
+```txt
+https://luismanobanda2017-rgb.github.io/Estructura-Web/
+```
 
 ---
 

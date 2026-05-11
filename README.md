@@ -9,7 +9,7 @@
 
 ```
 src/
-├── Presentation/        ← HTML + CSS (solo interfaz, sin lógica)
+├── Web_Visual/          ← HTML + CSS (interfaz web)
 ├── Persistence/         ← Conexión a Supabase
 └── Domain/
     └── DataStructures/  ← TDA implementados en JavaScript puro
@@ -19,7 +19,7 @@ database/                ← Scripts SQL para crear tablas en Supabase
 
 | Capa | Carpeta | Tecnología | Qué hace |
 |------|---------|-----------|---------|
-| Presentación | `src/Presentation/` | HTML5 + CSS3 | Interfaces de usuario |
+| Presentación | `src/Web_Visual/` | HTML5 + CSS3 | Interfaces de usuario |
 | Persistencia | `src/Persistence/` | JS + Supabase SDK | Conexión a base de datos |
 | Dominio | `src/Domain/DataStructures/` | JavaScript Vanilla | TDA: Cola, Árbol, Grafo, Lista |
 
@@ -65,8 +65,22 @@ En el [SQL Editor](https://supabase.com/dashboard/project/uizabeaqthcsxuimclji/e
 2. `database/02_politicas_rls.sql`
 3. `database/03_datos_prueba.sql` (opcional)
 
-### 4. Abrir
-Abre `src/Presentation/index.html` en el navegador.
+### 4. Abrir localmente
+Abre `src/Web_Visual/index.html` con Live Server.
+
+### 5. Abrir en internet
+El sitio público de GitHub Pages es:
+
+```txt
+https://luismanobanda2017-rgb.github.io/Estructura-Web/
+```
+
+Para activar o pausar la página:
+
+1. Entra al repositorio en GitHub.
+2. Ve a **Settings** → **Pages**.
+3. Para activar: usa `Deploy from a branch`, rama `principal` y carpeta `/ (raíz)`.
+4. Para pausar: cambia la fuente a `None` o deshabilita GitHub Pages.
 
 ---
 
