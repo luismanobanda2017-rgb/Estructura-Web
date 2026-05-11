@@ -92,6 +92,26 @@ O desde VS Code: panel izquierdo → ícono de rama (Source Control) → escribi
 
 ---
 
+## PASO 7 — Publicar en internet con GitHub Pages
+
+El sitio público queda en:
+
+```txt
+https://luismanobanda2017-rgb.github.io/Estructura-Web/
+```
+
+Para activarlo por primera vez:
+
+1. Sube los cambios a GitHub con `git push`.
+2. En GitHub entra al repositorio `Estructura-Web`.
+3. Ve a **Settings** → **Pages**.
+4. En **Source**, selecciona **GitHub Actions**.
+5. Espera a que termine el workflow **Deploy SmartCampus UTA to GitHub Pages**.
+
+Después de eso, cualquier persona con internet podrá entrar al link público.
+
+---
+
 ## FLUJO DE TRABAJO NORMAL
 
 ```
